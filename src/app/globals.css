@@ -17,6 +17,20 @@ a {
 	text-decoration: none;
 }
 
+.theme {
+	transition: 1s all ease;
+}
+
+.light {
+	background-color: white;
+	color: #111;
+}
+
+.dark {
+	background-color: #111;
+	color: #bbb;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
