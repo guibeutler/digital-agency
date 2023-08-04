@@ -1,18 +1,20 @@
 import React from 'react'
-import styles from './page.module.css'
-import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+
+import styles from './page.module.css'
 
 async function fetchItems() {
-	try {
-		const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
-			cache: 'no-store',
-		})
-		const items = await res.json()
-		return items
-	} catch (error) {
-		console.log('error =>', error)
+	const res = await fetch('http://localhost:3000/api/posts', {
+		cache: 'no-store',
+	})
+
+	if (!res.ok) {
+		return notFound()
 	}
+
+	return res.json()
 }
 
 async function Blog() {
@@ -20,17 +22,17 @@ async function Blog() {
 
 	return (
 		<div className={styles.mainContainer}>
-			{data.map((item) => {
+			{data.map((item: any) => {
 				return (
 					<Link
-						href={`/blog/${item.id}`}
+						href={`/blog/${item._id}`}
 						className={styles.container}
 						key={item.id}
 					>
 						<div className={styles.imageContainer}>
 							<Image
 								className={styles.image}
-								src={item.image}
+								src={item.img}
 								alt=""
 								width={400}
 								height={250}
@@ -38,7 +40,7 @@ async function Blog() {
 						</div>
 						<div className={styles.content}>
 							<h1 className={styles.title}>{item.title}</h1>
-							<p className={styles.desc}>{item.body}</p>
+							<p className={styles.desc}>{item.desc}</p>
 						</div>
 					</Link>
 				)

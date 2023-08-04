@@ -1,20 +1,19 @@
 import React from 'react'
+import { notFound } from 'next/navigation'
 import Image from 'next/image'
+
 import styles from './page.module.css'
 
 async function fetchItem(id: string) {
-	try {
-		const res = await fetch(
-			`https://jsonplaceholder.typicode.com/posts/${id}`,
-			{
-				cache: 'no-store',
-			}
-		)
-		const item = await res.json()
-		return item
-	} catch (error) {
-		console.log('error =>', error)
+	const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+		cache: 'no-store',
+	})
+
+	if (!res.ok) {
+		return notFound()
 	}
+
+	return res.json()
 }
 
 async function BlogPost({ params }: { params: { id: string } }) {
